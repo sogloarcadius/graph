@@ -1,3 +1,2 @@
-Projet Graphe
-@author : SOGLO Arcadius
-Enssat Lannion
+SOGLO Arcadius
+Graph Project : Djistra & Bellman Algorithms in Python
