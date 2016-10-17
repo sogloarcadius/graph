@@ -65,18 +65,35 @@ def pccBellman( graphe, s):
 
     return d,pred
 
-def Bellman(graphe, s):
-    d,pred=pccBellman
+def BellmanXY(graphe, sm1,sm2):
+    d,pred =pccBellman(graphe,sm1)
     chemin={}
-    n=len(d)
-    while ( n !=0):
-        for key in d.keys():
-            if key !=s:
-                sommet=key
-                longeur=d[key]
-                liste=[]
-                liste.append(sommet)
+    liste=[]
+    cost=d[sm2]
+    sommet=sm2
+    liste.insert(0,sm2)
 
-                while(pred[sommet] != s):
-                    pre=pred[sommet]
-                    liste.append(pre)
+    for key,values in pred.items():
+        if(pred[sommet] != sm1):
+            sget=pred[sommet]
+            liste.insert(0,sget)
+            sommet=sget
+    liste.insert(0,sm1)
+    return liste,cost
+
+
+def Bellman(graphe,s):
+    chemins={}
+    for sommet in graphe.sommets:
+        if sommet !=s:
+            listd,cost=BellmanXY(graphe,s,sommet)
+            chemins[cost]=listd
+    #return chemins
+    print('*'*50)
+    print("Recherche du plus court chemin entre {} et tous les autres sommets".format(s))
+    print("*"*50)
+    print('Plus courts chemin de : ')
+    for keys,values in chemins.items():
+        print("longueur ", keys, " :", '->'.join(map(str,values)))
+        # for val in values:
+        #     print(str(val)+ "->", end=" ")

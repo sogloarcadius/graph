@@ -78,9 +78,13 @@ grapheb.Ajouter_arc(2,4,4)
 grapheb.Ajouter_arc(4,5,-1)
 grapheb.Ajouter_arc(5,3,-5)
 
-d,pred=Bellman(grapheb,0)
+d,pred=pccBellman(grapheb,0)
+
 print(d)
 print(pred)
+Bellman(grapheb,0)
+# print(listd)
+# print(cost)
 # sinconnu =[1,3,4,5]
 # sconnu=[0,2]
 # sommetcandidat=choisir(grapheb,sinconnu,sconnu)
