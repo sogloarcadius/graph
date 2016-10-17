@@ -2,17 +2,23 @@
 
 from Graphe import *
 from Dijkstra import *
+from Bellman import *
 
 # @author :
 	#Arcadius SOGLO
-# @Description : Tests unitaires des algorithme des Dijkstra et Bellman Ford
+# @Description : Tests unitaires des algorithme des Dijkstra et Bellman
 	# On utilise Objet de type graphe, type abstrait de donnée pour manipuler les graphes
-#@Warning :
-	#On oblige des sommets entiers numeroté a partir de " 0 " pour optimisation de code
+"""
+@Warning :
+	#On oblige des sommets entiers numeroté a partir de " 0 "
 	#car mon implémentation de l'algorithme utilise les matrices d'adjacence pour faire le routage
+"""
+
+##################### Tests du TAD #############################
 
 
 
+##################### Tests de djisktra #############################
 # graphe = Graphe(6)
 # graphe.Ajouter_arc(0,1,2,False)
 # #graphe.Ajouter_arc(1,7,2,False)####arrete deja dans le graphe, juste au dessus, test OK !
@@ -55,4 +61,29 @@ graphed.Ajouter_arc(3,0,2)
 graphed.Ajouter_arc(5,2,2)
 graphed.Ajouter_arc(6,1,2)
 graphed.Ajouter_arc(7,5,2)
-Dijkstra(graphed,3)
+##Dijkstra(graphed,3)
+#print(graphed.successeurs(0))
+
+
+##################### Tests de Bellman #############################
+
+grapheb= Graphe(5)
+grapheb.Ajouter_arc(0,1,1)
+grapheb.Ajouter_arc(0,2,-2)
+grapheb.Ajouter_arc(1,3,-2)
+grapheb.Ajouter_arc(1,5,3)
+grapheb.Ajouter_arc(2,1,1)
+grapheb.Ajouter_arc(2,3,5)
+grapheb.Ajouter_arc(2,4,4)
+grapheb.Ajouter_arc(4,5,-1)
+grapheb.Ajouter_arc(5,3,-5)
+
+d,pred=Bellman(grapheb,0)
+print(d)
+print(pred)
+# sinconnu =[1,3,4,5]
+# sconnu=[0,2]
+# sommetcandidat=choisir(grapheb,sinconnu,sconnu)
+# print(sommetcandidat)
+# x=min(sommetcandidat)
+# print(x)

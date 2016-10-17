@@ -49,6 +49,19 @@ class Graphe(object):
 		else:
 			print("Au moins 1 des deux sommets n'existe pas".center(50,'?'))
 
+	def predecesseurs(self,sm):
+		pred=[]
+		for couple in self.arcs.keys():
+			if couple[1]==sm:
+				pred.append(couple[0])
+		return pred
+
+	def successeurs(self,sm):
+		suc=[]
+		for couple in self.arcs.keys():
+			if couple[0]==sm:
+				suc.append(couple[1])
+		return suc
 
 
 
