@@ -62,7 +62,7 @@ graphed.Ajouter_arc(5,2,2)
 graphed.Ajouter_arc(6,1,2)
 graphed.Ajouter_arc(7,5,2)
 ##Dijkstra(graphed,3)
-#print(graphed.successeurs(0))
+
 
 
 ##################### Tests de Bellman #############################
@@ -77,17 +77,22 @@ grapheb.Ajouter_arc(2,3,5)
 grapheb.Ajouter_arc(2,4,4)
 grapheb.Ajouter_arc(4,5,-1)
 grapheb.Ajouter_arc(5,3,-5)
+#Bellman(grapheb,0)
 
-d,pred=pccBellman(grapheb,0)
+####deuxieme test
 
-print(d)
-print(pred)
-Bellman(grapheb,0)
-# print(listd)
-# print(cost)
-# sinconnu =[1,3,4,5]
-# sconnu=[0,2]
-# sommetcandidat=choisir(grapheb,sinconnu,sconnu)
-# print(sommetcandidat)
-# x=min(sommetcandidat)
-# print(x)
+graphec=Graphe(5)
+graphec.Ajouter_arc(0,3,6)
+graphec.Ajouter_arc(0,2,5)
+graphec.Ajouter_arc(0,1,4)
+graphec.Ajouter_arc(1,2,-3)
+graphec.Ajouter_arc(2,5,4)
+graphec.Ajouter_arc(3,4,2)
+graphec.Ajouter_arc(4,5,2)
+graphec.Ajouter_arc(5,4,1)
+
+# s_connu =[0]
+# s_inconnu=[1,2,3,4,5]
+#
+# print(choisir(graphec,s_inconnu,s_connu))
+print(BellmanXY2(grapheb,0,1))
