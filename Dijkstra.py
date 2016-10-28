@@ -1,3 +1,4 @@
+#! /usr/bin/python3
 #-*-coding:utf8-*-
 
 from Graphe import *
@@ -10,7 +11,8 @@ from Graphe import *
 
 
 ##fonction pour calculer les plus court chemin avec la matrice d'adjacence
-def PlusCourtChemins(mg,s):
+##Applique algorithme de Dijkstra
+def pccDijkstra(mg,s):
 
     """
     arguments : mg - matrice d'adjacence du graphe pondéré
@@ -20,7 +22,7 @@ def PlusCourtChemins(mg,s):
     """
     # initialisation -----------------------------------
 
-    infini = sum(sum(ligne) for ligne in mg)+1
+    infini = sum(sum(ligne) for ligne in mg)+1  ### somme des poids des arcs du graphe + 1
     nb_sommets =len(mg)
 
 
@@ -59,10 +61,10 @@ def PlusCourtChemins(mg,s):
 
 
 ########################################################
-#fonction qui applique algorithme djisktra
-#Utilise fonction PlusCourtChemins
+#Utilise fonction PlusCourtChemins(pccDijkstra)
 ##Effectue les test de conditions d'application de l'algorithme
 #########################################################
+
 def Dijkstra(graphe,s):
     """
     arguments :
@@ -73,8 +75,8 @@ def Dijkstra(graphe,s):
     """
     if not graphe.Arc_negatif():#Dijkstra ne peut s'effectuer que si il n'y a aucun arc négatif
         if s in graphe.sommets: ##On vérifie existence du sommet dans la liste de sommet
-            mg=graphe.Matrice()#on genere la matrice d'adjacence de l'objet graphe
-            PlusCourtChemins(mg,s) ## retourne dictionnaire { sommet : [longeur, plus court chemin ]
+            mg=graphe.Matrice()#on genere la matrice d'adjacence de l'objet graphe creé
+            pccDijkstra(mg,s) ## retourne dictionnaire { sommet : [longeur, plus court chemin ]
         else:
             print("Le sommet n'existe pas".center(50,"*"))
     else :
@@ -84,12 +86,13 @@ def Dijkstra(graphe,s):
 ######################################################################################"
 
 #Calcul du plus court chemin entre deux sommets X et Y
-#On extrait de notre dictionnaire précedent le plus court chemin entre ces deux sommet
-#s'il existe sinon on renvoie un message
-#sinon on affiche pas de chemin entre les deux
+
+#On extrait de notre dictionnaire précedent le plus court chemin entre ces deux sommet si chemin existe
+#
+#sinon on affiche pas de chemin entre les deux sommets
 ######################################################################################"
 
-def PlusCourtCheminXY(mg,s,g):
+def pccDijkstraXY(mg,s,g):
     """
     arguments : mg - matrice d'adjacence du graphe pondéré
                 s - sommet d'origine
@@ -135,6 +138,7 @@ def PlusCourtCheminXY(mg,s,g):
 #### Extraire le plus court chemin entre deux sommets
 #Si chemin existe on l'Affiche
 #Sinon on envoie message d'erreur
+
 def DijkstraXY(graphe,s,g):
     """
     arguments :
@@ -147,7 +151,7 @@ def DijkstraXY(graphe,s,g):
     if not graphe.Arc_negatif():#Dijkstra ne peut s'effectuer que si il n'y a aucun arc négatif
         if s in graphe.sommets and g in graphe.sommets: ##On vérifie existence du sommet dans la liste de sommet
             mg=graphe.Matrice()#on genere la matrice d'adjacence de l'objet graphe
-            PlusCourtCheminXY(mg,s,g) ## retourne dictionnaire { sommet : [longeur, plus court chemin ]
+            pccDijkstraXY(mg,s,g) ## retourne dictionnaire { sommet : [longeur, plus court chemin ]
         else:
             print("Un des sommets n'existe pas".center(50,"*"))
     else :

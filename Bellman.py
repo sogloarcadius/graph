@@ -1,9 +1,12 @@
+#! /usr/bin/python3
 #-*-coding:utf8-*-
 
 from Graphe import *
+import sys
+from  math import *
 
 ############################################################
-#Implementation de l'algorithme de Bellman
+#Implementation de l'algorithme de Bellman graphe sans circuit
 #Author : SOGLO Arcadius
 #Python 3.4.2
 #####################################################
@@ -20,17 +23,27 @@ def choisir(graphe,sinconnu,sconnu):
         #print(str(sommet) + " : " + str(pred))
         if (all( x in sconnu for x in pred)):
             sommetcandidat.append(sommet)
-    #print("sommet candidat  " + str(sommetcandidat))
+            #print("sommet candidat  " + str(sommetcandidat))
     return sommetcandidat
 
 
-def pccBellman( graphe, s):
+#######
+#fonction qui Calcul l'infini
+###somme de tous les |poids| du graphe multiplié par 2
+
+
+####
+#Calcul des plus court chemin : applique algo vu en cours
+###
+def pccBellman(graphe, s):
     """
         Parametre dentrée : objet graphe
                              le sommet s : source
-        Sortie : Affiche les plus court chemin
+        Sortie :
+            d = {} : dictionnaire du pcc entre la source et un sommet i qui est la clé
+            pred = {} #dictionnaire des predecesseurs dans ce pcc
 
-        Contrainte : pas de circuit absorbant : circuit a valeur negative
+        Contrainte : pas de circuit
     """
 
     ##Variables
@@ -38,157 +51,122 @@ def pccBellman( graphe, s):
     s_inconnu =[] #liste de sommet dont le pcc inconnu
     d = {} #dictionnaire du pcc entre la source et un sommet i qui est la clé
     pred = {} #dictionnaire des predecesseurs
-    infini = 2016
+
+    infini = float('inf')#infini en python
+    #print(infini)
 
     ## initialisation
     #tous les sommets sauf l'origine sont dans s_inconnu
+
     for vertice in graphe.sommets:
         if vertice != s:
             s_inconnu.append(vertice)
 
     s_connu.append(s)
     d[s]=0
+    try :
+        while (s_inconnu):
+            sommetcandidat=choisir(graphe,s_inconnu,s_connu)
+            x=min(sommetcandidat)
+            #print("min :" +str(x))
+            #print("s_inconnu"+str(s_inconnu))
+            s_inconnu.remove(x)
+            #print("s_inconnu"+str(s_inconnu))
+            n=infini
+            for y in graphe.predecesseurs(x):
+                couple=(y,x)
+                #print("couple(y,x)" +str(couple))
+                np=d[y] + graphe.arcs[couple]
+                #print("var np :" + str(np))
+                if np < n :
+                    z=y
+                    n=np
+            d[x]=n
+            #print("var z :" + str(z))
+            s_connu.append(x)
+            pred[x]=z
+        return d,pred
+    except:
+        sys.exit("\n"+ "@Warning"+"\n"+
+        "#cas 1 \n"+
+        "Le graphe comporte au moins un circuit."+
+        "\n"+ "Cet algorithme ne fonctionne pas pour des graphes avec circuit.\n"+
+        "\n"+
+        "#cas 2 \n"+
+        "Mauvais choix du sommet de départ."+"\n"
+        +"L'algorithme bloque quand un sommet n'a pas de predecesseurs(sommet 0)"
+        +"\n \n"
+        "@solution"
+         +"\n"+ "Utiliser Bellman2"+"\n")
 
-    while (s_inconnu):
-         sommetcandidat=choisir(graphe,s_inconnu,s_connu)
-         x=min(sommetcandidat)
-         #print("min :" +str(x))
-         s_inconnu.remove(x)
-         n=infini
-         for y in graphe.predecesseurs(x):
-             couple=(y,x)
-             np=d[y] + graphe.arcs[couple]
-             if np < n :
-                 z=y
-                 n=np
-         d[x]=n
-         s_connu.append(x)
-         pred[x]=z
-
-    return d,pred
+######################################################
+#### Extraire le plus court chemin entre deux sommets
+#Si chemin existe on l'Affiche
+#Sinon on envoie message d'erreur
+####################################################
 
 def BellmanXY(graphe, sm1,sm2):
-    d,pred =pccBellman(graphe,sm1)
-    chemin={}
-    liste=[]
-    cost=d[sm2]
-    sommet=sm2
-    liste.insert(0,sm2)
+    """
+        param In : graphe, sommet source, sommet destination
 
-    for key,values in pred.items():
-        if(pred[sommet] != sm1):
-            sget=pred[sommet]
-            liste.insert(0,sget)
-            sommet=sget
-    liste.insert(0,sm1)
+        param out : liste =[ sm1, b, sm2] : chemin entre sm1 et sm2 si existe
+                    cost : int : le cout du chemin
+                        --
+                     liste=[None] : si pas de chemin
+                     cost = None  : ||
+    """
+    d,pred =pccBellman(graphe,sm1)
+
+    liste=[]
+    sommet=sm2
+    cost=None #initiation valeur cout si pas de chemin
+    if sommet in pred.keys():
+        cost=d[sm2]
+        liste.insert(0,sm2)
+        for key,values in pred.items():
+            if(pred[sommet] != sm1):
+                sget=pred[sommet]
+                liste.insert(0,sget)
+                sommet=sget
+        liste.insert(0,sm1)
+    else:
+        liste.append(None)##si pas de chemin(pas de predecesseurs)
+    #print(liste)
+    #print(cost)
     return liste,cost
 
+#####################################################
+## Affiche tous les plus courts chemin
+#    entre le sommet source et tous les autres sommets
+#################
 
 def Bellman(graphe,s):
-    chemins={}
+    """
+        param In : graphe et sommet source
+
+        Sortie : Affiche les pcc entre la source et les sommets du graphe
+
+        !!! appel de BellmanXY2(voir fonction dessus)
+    """
+    chemins={} # dictionnaire des chemins
+    #clé : longueur chemin
+    #valeur: liste des chemins entre  S et les sommets du graphe
+
+    print('*'*50)
+    print("Recherche du plus court chemin entre {} et tous les autres sommets".format(s))
+    print("*"*50)
+    print('Plus courts chemin de : ')
+    sommets_injoignable=[] # on stocke les sommets injoignables
     for sommet in graphe.sommets:
         if sommet !=s:
             listd,cost=BellmanXY(graphe,s,sommet)
-            chemins[cost]=listd
-    #return chemins
-    print('*'*50)
-    print("Recherche du plus court chemin entre {} et tous les autres sommets".format(s))
-    print("*"*50)
-    print('Plus courts chemin de : ')
-    for keys,values in chemins.items():
-        print("longueur ", keys, " :", '->'.join(map(str,values)))
-        # for val in values:
-        #     print(str(val)+ "->", end=" ")
-
-
-###### Application dun nouvel algorithme qui prend en compte les circuits absorbant
-#Calcul du plus court chemin en utilisant l'algorithme qui tiens compte des circuitabsorbant
-"""
-algorithme
-initialisation ( G, s)
-// les poids de tous les sommets sont mis à +infini
-// le poid du sommet initial à 0 ;
-pour i=1 jusqu’à Nombre de sommets -1 faire
-|
-pour chaque arc (u, v) du graphe faire
-|
-| paux := poids(u) + poids(arc(u, v));
-|
-| si paux <poids(v) alors
-|
-|
-| pred(v) := u ;
-|
-|
-| poids(v) := paux;
-pour chaque arc (u, v) du graphe faire
-|
-si poids(u) + poids(arc(u, v)) <poids(v) alors
-|
-retourner faux
-retourner vrai
-
-L’algorithme retourne VRAI si et seulement
-si le graphe ne contient aucun circuit de longueur stric-
-tement négatif accessible depuis l’origine.
-"""
-
-def pccBellman2(graphe, s):
-    ##Variables
-    d = {} #dictionnaire du pcc entre la source et un sommet i qui est la clé
-    pred = {} #dictionnaire des predecesseurs
-    n=len(graphe.sommets)
-    infini = 2016
-    circuitabsorbant=True ## retourne vrai ssi pas de circuit absorbant
-    ##initialisation
-    for sommet in graphe.sommets:
-        if sommet !=s:
-            d[sommet]=infini
-    d[s]=0
-
-    for i in range(n):
-        for (u,v) in graphe.arcs.keys():#les clés du dico sont des arcs
-            #print((u,v))
-            paux=d[u] + graphe.arcs[(u,v)]
-            #print(d[v])
-            if paux < d[v]:
-                pred[v]=u
-                d[v]=paux
-    for (u,v) in graphe.arcs.keys():
-        if (d[u] + graphe.arcs[(u,v)]) < d[v]:
-            circuitabsorbant=False
-        else :
-            circuitabsorbant=True
-    return d,pred
-
-def BellmanXY2(graphe, sm1,sm2):
-    d,pred =pccBellman2(graphe,sm1)
-    chemin={}
-    liste=[]
-    cost=d[sm2]
-    sommet=sm2
-    liste.insert(0,sm2)
-
-    for key,values in pred.items():
-        if(pred[sommet] != sm1):
-            sget=pred[sommet]
-            liste.insert(0,sget)
-            sommet=sget
-    liste.insert(0,sm1)
-    return liste,cost
-
-def Bellman2(graphe,s):
-    chemins={}
-    for sommet in graphe.sommets:
-        if sommet !=s:
-            listd,cost=BellmanXY2(graphe,s,sommet)
-            chemins[cost]=listd
-    #return chemins
-    print('*'*50)
-    print("Recherche du plus court chemin entre {} et tous les autres sommets".format(s))
-    print("*"*50)
-    print('Plus courts chemin de : ')
-    for keys,values in chemins.items():
-        print("longueur ", keys, " :", '->'.join(map(str,values)))
-        # for val in values:
-        #     print(str(val)+ "->", end=" ")
+            if cost !=None:
+                chemins[cost]=listd
+                for keys,values in chemins.items():
+                    print("longueur ", keys, " :", '->'.join(map(str,values)))
+                chemins={}
+            else :
+                sommets_injoignable.append(sommet)
+    #print(sommets_injoignable)
+    for k in sommets_injoignable:
+        print("il ny a aucun chemin de {} à {} ".format(s,k))
