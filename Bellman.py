@@ -138,6 +138,7 @@ def BellmanXY(graphe, sm1,sm2):
 #####################################################
 ## Affiche tous les plus courts chemin
 #    entre le sommet source et tous les autres sommets
+# !!! appel de BellmanXY (voir fonction dessus)
 #################
 
 def Bellman(graphe,s):
@@ -146,7 +147,7 @@ def Bellman(graphe,s):
 
         Sortie : Affiche les pcc entre la source et les sommets du graphe
 
-        !!! appel de BellmanXY2(voir fonction dessus)
+        !!! appel de BellmanXY(voir fonction dessus)
     """
     chemins={} # dictionnaire des chemins
     #clé : longueur chemin

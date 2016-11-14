@@ -109,7 +109,8 @@ def BellmanXY2(graphe,sm1,sm2):
 #####################################################
 ## Affiche tous les plus courts chemin
 #    entre le sommet source et tous les autres sommets
-#################
+##        !!! appel de BellmanXY2(voir fonction dessus)
+###############
 
 def Bellman2(graphe,s):
     """
