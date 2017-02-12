@@ -1,14 +1,18 @@
-Auteur : SOGLO Arcadius
+## Auteur  
+SOGLO Arcadius
 
-Projet Graphe : Algorithme de Dijkstra & Bellman en Python
+## Projet Graphe  
+Algorithme de Dijkstra & Bellman en Python
 
-Ecole : ENSSAT Lannion ( Ecole d'ingénieurs )
+## Ecole  
+ENSSAT Lannion ( Ecole d'ingénieurs )
 
-Contact : asoglo@enssat.fr
-          sogloarcadius@yahoo.fr
+## Contact
+* asoglo@enssat.fr
+* sogloarcadius@yahoo.fr
 
-Sujet :
-
+## Sujet  
+```
   Dans le langage que vous souhaitez (Python, Java, C ...) mettez en œuvre :
 
     les fonctionnalités de base d'un T.A.D. graphe orienté valué à N sommets ;
@@ -26,3 +30,4 @@ Sujet :
           les principes généraux / analyses des algorithmes ;
           le bilan des tests effectués.
   Tous vos fichiers sources.
+```
