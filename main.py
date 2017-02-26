@@ -1,10 +1,11 @@
 #! /usr/bin/python3
 #-*-coding:utf8
 
-from Graphe import *
-from Dijkstra import *
-from Bellman import *
-from Bellman2 import *
+
+from graph.graphe import *
+from graph.dijkstra import *
+from graph.bellman import *
+from graph.bellman2 import *
 # @author :
 	#Arcadius SOGLO
 # @Description : Tests unitaires des algorithme des Dijkstra et Bellman

@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 #-*-coding:utf8-*-
 
-from Graphe import *
+from graphe import *
 
 ############################################################
 #Implementation de l'algorithme de Dijkstra

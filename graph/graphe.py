@@ -34,12 +34,12 @@ class Graphe(object):
 			print("Le sommet existe déja")
 
 	# Permet d'ajouter un arc au graphe si les deux sommets placé en paramètre existent et si l'arc n'existe pas déja.
-	def Ajouter_arc(self, sm1, sm2, v=1, orienté=True):
+	def Ajouter_arc(self, sm1, sm2, v=1, oriente=True):
 		if sm1 in self.sommets and sm2 in self.sommets:
 			if isinstance(sm1,int) and isinstance(sm2,int):
 				if not (sm1,sm2) in self.arcs:
 					self.arcs[(sm1,sm2)]=v
-					if orienté == False:
+					if oriente == False:
 						if not (sm2,sm1) in self.arcs:
 							self.arcs[(sm2,sm1)]=v
 				else:
